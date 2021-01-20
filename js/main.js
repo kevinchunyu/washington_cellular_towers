@@ -22,18 +22,13 @@ for (i = 0; i < 9; i++) {
 }
 
 // Get GeoJSON and put on it on the map when it loads
-cellTowers= L.geoJson.ajax("assets/Cellular_Towers.geojson", {
+cellTowers= L.geoJson.ajax("assets/celltowers.geojson", {
     // assign a function to the onEachFeature parameter of the cellTowers object.
     // Then each (point) feature will bind a popup window.
     // The content of the popup window is the value of `feature.properties.company`
     onEachFeature: function (feature, layer) {
         layer.bindPopup(feature.properties.LICENSEE);
-    },
-    // filter function to just get data for washington boundaries
-    filter: function (feature) {
-      if(feature.properties.LOCSTATE == 'WA') {
-        return true;
-      }
+        return feature.properties.LOCCOUNTY;
     },
     pointToLayer: function (feature, latlng) {
         var id = 0;
@@ -52,27 +47,27 @@ cellTowers= L.geoJson.ajax("assets/Cellular_Towers.geojson", {
         else { id = 12;} // "Yakima MSA limited partnership"
         return L.marker(latlng, {icon: L.divIcon({className: 'fa fa-signal marker-color-' + (id + 1).toString() })});
     },
-    attribution: 'Cell Tower Data &copy; Map Cruzin | Oregon counties &copy; Oregon Explorer | Base Map &copy; CartoDB | Made By Bo Zhao'
+    attribution: 'Cell Tower Data &copy; Map Cruzin | Washington counties &copy; Oregon Explorer | Base Map &copy; CartoDB | Made By Bo Zhao'
 }).addTo(mymap);
 
 // 6. Set function for color ramp
-colors = chroma.scale('OrRd').colors(5); //colors = chroma.scale('RdPu').colors(5);
+colors = chroma.scale('RdPu').colors(5);
 
 function setColor(density) {
+    console.log(density);
     var id = 0;
-    if (density > 18) { id = 4; }
-    else if (density > 13 && density <= 18) { id = 3; }
-    else if (density > 10 && density <= 13) { id = 2; }
-    else if (density > 5 &&  density <= 10) { id = 1; }
+    if (density > 5) { id = 4; }
+    else if (density > 10 && density <= 15) { id = 3; }
+    else if (density > 16 && density <= 20) { id = 2; }
+    else if (density > 21 &&  density <= 30) { id = 1; }
     else  { id = 0; }
     return colors[id];
 }
 
-
 // 7. Set style function that sets fill color.md property equal to cell tower density
 function style(feature) {
     return {
-        fillColor: setColor(feature.properties.CT_CNT),
+        fillColor: setColor((feature.properties.count / feature.properties.AREA) * 1000 ),
         fillOpacity: 0.4,
         weight: 2,
         opacity: 1,
@@ -84,7 +79,7 @@ function style(feature) {
 // 8. Add county polygons
 // create counties variable, and assign null to it.
 var counties = null;
-counties = L.geoJson.ajax("assets/pop2010-wa-counties.geojson", {
+counties = L.geoJson.ajax("assets/wacountydata.json", {
     style: style
 }).addTo(mymap);
 
