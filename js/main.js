@@ -54,12 +54,12 @@ cellTowers= L.geoJson.ajax("assets/celltowers.geojson", {
 colors = chroma.scale('RdPu').colors(5);
 
 function setColor(density) {
-    console.log(density);
+    // console.log(density);
     var id = 0;
-    if (density > 5) { id = 4; }
-    else if (density > 10 && density <= 15) { id = 3; }
-    else if (density > 16 && density <= 20) { id = 2; }
-    else if (density > 21 &&  density <= 30) { id = 1; }
+    if (density > 0.002) { id = 4; }
+    else if (density > 0.003 && density <= 0.005) { id = 3; }
+    else if (density > 0.006 && density <= 0.009) { id = 2; }
+    else if (density > 0.010 &&  density <= 0.012) { id = 1; }
     else  { id = 0; }
     return colors[id];
 }
@@ -67,7 +67,7 @@ function setColor(density) {
 // 7. Set style function that sets fill color.md property equal to cell tower density
 function style(feature) {
     return {
-        fillColor: setColor((feature.properties.count / feature.properties.AREA) * 1000 ),
+        fillColor: setColor((feature.properties.count / feature.properties.AREA)),
         fillOpacity: 0.4,
         weight: 2,
         opacity: 1,
