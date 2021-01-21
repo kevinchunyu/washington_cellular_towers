@@ -272,13 +272,13 @@ function setColor(density) {
 
 ### 3.2 Apply the color palette
 
-Next, develop a function that will set the style option of  `L.geoJson.ajax()` object. We name this function `style`, and it can accept a GeoJson feature. Having the feature loaded, this function sets the `fillColor` property with `setColor` function as well as an input value - `feature.properties.count / (features.properties.POP/100000)`. Here we want to find the number of cell towers per 100k residents. Then, we add the following code snippet in the `script` element.
+Next, develop a function that will set the style option of  `L.geoJson.ajax()` object. We name this function `style`, and it can accept a GeoJson feature. Having the feature loaded, this function sets the `fillColor` property with `setColor` function as well as an input value - `feature.properties.CTNUM / (features.properties.POP/100000)`. Here we want to find the number of cell towers per 100k residents. Then, we add the following code snippet in the `script` element.
 
 ```js
 // 7. Set style function that sets fill color.md property equal to cell tower density
 function style(feature) {
     return {
-        fillColor: setColor(feature.properties.count / (feature.properties.POP/100000)),
+        fillColor: setColor(feature.properties.CTNUM / (feature.properties.POP/100000)),
         fillOpacity: 0.4,
         weight: 2,
         opacity: 1,
