@@ -59,7 +59,7 @@ Next, we add a `tileLayer` to add a base map to the `mymap` variable.
 ```js
 // 1. Create a map object.
 var mymap = L.map('map', {
-    center: [44.13, -119.93],
+    center: [47.7511, -120.7401],
     zoom: 7,
     maxZoom: 10,
     minZoom: 3,
@@ -84,7 +84,7 @@ Next, we want to add the cell tower data set to the map. Firstly, we need to inc
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
 ```
 
-In the directory `assets`, you will find a geojson file - `cell_towers.geojson`. Enter the following code snippet to add the cell towers to the map.
+In the directory `assets`, you will find a geojson file - `celltowers.geojson`. Enter the following code snippet to add the cell towers to the map.
 
 ```js
 // 3. Add cell towers GeoJSON Data
@@ -141,14 +141,14 @@ Furthermore, we also need some predefined color ramp to symbolize geographic fea
 
 > **Note:** Color palettes from Color Brewer.
 
-We need to create a set of random colors for representing cell towers of different companies. The color should follow the qualitative palettes because this palette can provide better visualization of the nominal data. Therefore, we select the `dark2` category (as shown in the figure above). Since there are nine cell tower types in Oregon, we will create nine different colors. To apply these colors, we dynamically build classes and then embed these classes in `style` elements.  The style classes are from `marker-color-1` to `marker-color-9`. Each class includes a color `property`. Below is the code snippet.
+We need to create a set of random colors for representing cell towers of different companies. The color should follow the qualitative palettes because this palette can provide better visualization of the nominal data. Therefore, we select the `dark2` category (as shown in the figure above). Since there are nine cell tower types in Oregon, we will create nine different colors. To apply these colors, we dynamically build classes and then embed these classes in `style` elements.  The style classes are from `marker-color-1` to `marker-color-12`. Each class includes a color `property`. Below is the code snippet.
 
 ```javascript
 // 4. build up a set of colors from colorbrewer's dark2 category
-var colors = chroma.scale('Set2').mode('lch').colors(12);
+var colors = chroma.scale('Set2').mode('lch').colors(13);
 
 // 5. dynamically append style classes to this page. This style classes will be used for colorize the markers.
-for (i = 0; i < 12; i++) {
+for (i = 0; i < 13; i++) {
     $('head').append($("<style> .marker-color-" + (i + 1).toString() + " { color: " + colors[i] + "; font-size: 15px; text-shadow: 0 0 3px #ffffff;} </style>"));
 }
 ```
@@ -272,13 +272,13 @@ function setColor(density) {
 
 ### 3.2 Apply the color palette
 
-Next, develop a function that will set the style option of  `L.geoJson.ajax()` object. We name this function `style`, and it can accept a GeoJson feature. Having the feature loaded, this function sets the `fillColor` property with `setColor` function as well as an input value - `feature.properties.count / (features.properties.AREA/1000)`. Here we want to find the number of cell towers per 1000 square miles. Then, we add the following code snippet in the `script` element.
+Next, develop a function that will set the style option of  `L.geoJson.ajax()` object. We name this function `style`, and it can accept a GeoJson feature. Having the feature loaded, this function sets the `fillColor` property with `setColor` function as well as an input value - `feature.properties.count / (features.properties.POP/100000)`. Here we want to find the number of cell towers per 100k residents. Then, we add the following code snippet in the `script` element.
 
 ```js
 // 7. Set style function that sets fill color.md property equal to cell tower density
 function style(feature) {
     return {
-        fillColor: setColor(feature.properties.count / (feature.properties.AREA/1000)),
+        fillColor: setColor(feature.properties.count / (feature.properties.POP/100000)),
         fillOpacity: 0.4,
         weight: 2,
         opacity: 1,
@@ -323,7 +323,7 @@ legend.onAdd = function () {
 
     // Create Div Element and Populate it with HTML
     var div = L.DomUtil.create('div', 'legend');
-    div.innerHTML += '<b># Cell Tower</b><br />';
+    div.innerHTML += '<b># Cell Tower per 100k residents</b><br />';
     div.innerHTML += '<i style="background: ' + colors[4] + '; opacity: 0.5"></i><p>22+</p>';
     div.innerHTML += '<i style="background: ' + colors[3] + '; opacity: 0.5"></i><p> 16 - 21 </p>';
     div.innerHTML += '<i style="background: ' + colors[2] + '; opacity: 0.5"></i><p> 9 - 15 </p>';
@@ -342,13 +342,14 @@ legend.onAdd = function () {
     div.innerHTML += '<i class="fa fa-signal marker-color-10"></i><p> Verizon </p>';
     div.innerHTML += '<i class="fa fa-signal marker-color-11"></i><p> Washington RSA </p>';
     div.innerHTML += '<i class="fa fa-signal marker-color-12"></i><p> Western Sub-RSA </p>';
-
+    div.innerHTML += '<i class="fa fa-signal marker-color-13"></i><p> Yakima </p>';
     // Return the Legend div containing the HTML content
     return div;
 };
 
 // 11. Add a legend to map
 legend.addTo(mymap);
+
 ```
 
 Specifically, we created an instance of a  **Leaflet Control object**, calling it legend, and used the position option to tell it to locate in the top right of our map. Next, we used the `onAdd` method of the control to run a function when the legend is added. That function created a new div in the DOM, giving it a class of legend. This allowed the CSS to style everything using the legend element. In the newly created div, we are going to populate it with HTML by using a built-in JavaScript DOM method called innerHTML. Using innerHTML allows us to change the content of the HTML and add to the legend div. Using the plus-equal `+=` instead of equal `=` is the syntax for append. Every time this is used, code following is appended to the existing code. In this, we write the HTML we want to use in our legend. Note, the `i` tag represents our legend icons. Within the HTML, fill in the colors and ranges so that they match our data classification. After the HTML is appended, return the div element. Lastly, add the legend to the map.
@@ -480,3 +481,5 @@ After you successfully deploy this cell tower map, you are expected to build ano
 [3] Boundary: <https://www.ofm.wa.gov/washington-data-research/population-demographics/gis-data/census-geographic-files>
 
 [4] Add topojson instead of geojson <http://blog.webkid.io/maps-with-leaflet-and-topojson/>
+
+[5] This lab was originally designed in the context of Oregon.  I appreicate Kevin Ko's assistance in upgrading the lab material.
