@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Cell Towers in Oregon (2009)</title>
+    <title>Cell Towers in Washington (2010)</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
     <style>
@@ -20,7 +20,7 @@
 
     // 1. Create a map object.
     var mymap = L.map('map', {
-        center: [44.13, -119.93],
+        center: [47.7511, -120.7401],
         zoom: 7,
         maxZoom: 10,
         minZoom: 3,
@@ -35,10 +35,10 @@
 
 
     // 4. build up a set of colors from colorbrewer's dark2 category
-    var colors = chroma.scale('Dark2').mode('lch').colors(12);
+    var colors = chroma.scale('Dark2').mode('lch').colors(13);
 
     // 5. dynamically append style classes to this page. This style classes will be used for colorize the markers.
-    for (i = 0; i < 12; i++) {
+    for (i = 0; i < 13; i++) {
         $('head').append($("<style> .marker-color-" + (i + 1).toString() + " { color: " + colors[i] + "; font-size: 15px; text-shadow: 0 0 3px #ffffff;} </style>"));
     }
 
@@ -65,7 +65,7 @@
             else if (feature.properties.LICENSEE == "VERIZON WIRELESS (VAW), LLC")  { id = 9; }
             else if (feature.properties.LICENSEE == "WASHINGTON RSA #8 LIMITED PARTNERSHIP")  { id = 10; }
             else if (feature.properties.LICENSEE == "WESTERN SUB-RSA LIMITED PARTNERSHIP")  { id = 11; }
-            else { id = 12;} 
+            else { id = 12;} // "Yakima MSA limited partnership"
             return L.marker(latlng, {icon: L.divIcon({className: 'fa fa-signal marker-color-' + (id + 1).toString() })});
         },
         attribution: 'Cell Tower Data &copy; HIFLD | Washington counties &copy; Washington Data & Research | Base Map &copy; CartoDB | Made By Kevin Ko'
