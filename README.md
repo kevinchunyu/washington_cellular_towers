@@ -472,6 +472,11 @@ After you successfully deploy this cell tower map, you are expected to build ano
 
 -   Try to add on a feature of the leaflet which we have not discussed in class. The new features can be found on [the plugin page](https://leafletjs.com/plugins.html) of the leafet. **(5 points)**
 
+
+## Acknowledgement
+
+[1] This lab was originally designed in the context of Oregon.  I appreciate Kevin Ko's assistance in upgrading the lab material.
+
 ## Reference
 
 [1] Map Symbolization <http://duspviz.mit.edu/web-map-workshop/map-symbolization/>
@@ -481,5 +486,3 @@ After you successfully deploy this cell tower map, you are expected to build ano
 [3] Boundary: <https://www.ofm.wa.gov/washington-data-research/population-demographics/gis-data/census-geographic-files>
 
 [4] Add topojson instead of geojson <http://blog.webkid.io/maps-with-leaflet-and-topojson/>
-
-[5] This lab was originally designed in the context of Oregon.  I appreicate Kevin Ko's assistance in upgrading the lab material.
