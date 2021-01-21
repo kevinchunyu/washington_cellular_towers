@@ -51,15 +51,15 @@ cellTowers= L.geoJson.ajax("assets/celltowers.geojson", {
 }).addTo(mymap);
 
 // 6. Set function for color ramp
-colors = chroma.scale('RdPu').colors(5);
+colors = chroma.scale('OrRd').colors(5);
 
 function setColor(density) {
-    // console.log(density);
+    console.log(density);
     var id = 0;
-    if (density > 0.002) { id = 4; }
-    else if (density > 0.003 && density <= 0.005) { id = 3; }
-    else if (density > 0.006 && density <= 0.009) { id = 2; }
-    else if (density > 0.010 &&  density <= 0.012) { id = 1; }
+    if (density > 22) { id = 4; }
+    else if (density > 16 && density <= 21) { id = 3; }
+    else if (density > 9 && density <= 15) { id = 2; }
+    else if (density > 3 &&  density <= 8) { id = 1; }
     else  { id = 0; }
     return colors[id];
 }
@@ -67,7 +67,7 @@ function setColor(density) {
 // 7. Set style function that sets fill color.md property equal to cell tower density
 function style(feature) {
     return {
-        fillColor: setColor((feature.properties.count / feature.properties.AREA)),
+        fillColor: setColor(feature.properties.count / (feature.properties.AREA/1000)),
         fillOpacity: 0.4,
         weight: 2,
         opacity: 1,
@@ -93,11 +93,11 @@ legend.onAdd = function () {
     // Create Div Element and Populate it with HTML
     var div = L.DomUtil.create('div', 'legend');
     div.innerHTML += '<b># Cell Tower</b><br />';
-    div.innerHTML += '<i style="background: ' + colors[4] + '; opacity: 0.5"></i><p>19+</p>';
-    div.innerHTML += '<i style="background: ' + colors[3] + '; opacity: 0.5"></i><p>14-18</p>';
-    div.innerHTML += '<i style="background: ' + colors[2] + '; opacity: 0.5"></i><p>11-13</p>';
-    div.innerHTML += '<i style="background: ' + colors[1] + '; opacity: 0.5"></i><p> 6-10</p>';
-    div.innerHTML += '<i style="background: ' + colors[0] + '; opacity: 0.5"></i><p> 0- 5</p>';
+    div.innerHTML += '<i style="background: ' + colors[4] + '; opacity: 0.5"></i><p>22+</p>';
+    div.innerHTML += '<i style="background: ' + colors[3] + '; opacity: 0.5"></i><p> 16 - 21 </p>';
+    div.innerHTML += '<i style="background: ' + colors[2] + '; opacity: 0.5"></i><p> 9 - 15 </p>';
+    div.innerHTML += '<i style="background: ' + colors[1] + '; opacity: 0.5"></i><p> 3-8 </p>';
+    div.innerHTML += '<i style="background: ' + colors[0] + '; opacity: 0.5"></i><p> 0- 2 </p>';
     div.innerHTML += '<hr><b>Company<b><br />';
     div.innerHTML += '<i class="fa fa-signal marker-color-1"></i><p> AT&T </p>';
     div.innerHTML += '<i class="fa fa-signal marker-color-2"></i><p> Eastern Sub-RSA </p>';
