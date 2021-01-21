@@ -6,7 +6,7 @@
 
 In this lab, we will design an interactive web map of cell towers in Washington. When creating a web map, one of the critical components is styling your elements to provide proper symbolization for your data. This increases legibility for users and can give your map an appealing, custom design. Elements that can be customized to include thematic layers (i.e., points, lines, and polygons), base maps (as a leaflet `tileLayer`), interactive features (the components of the map that allow for user interaction), and legends and supplemental information (such as credits, etc.). To do that, the county boundaries are from [Washington Data & Research](https://www.ofm.wa.gov/washington-data-research/population-demographics/gis-data/census-geographic-files), and the spatial distribution of cell towers is from [Homeland Infrastructure Foundation-Level Data (HIFLD)](https://hifld-geoplatform.opendata.arcgis.com/datasets/0835ba2ed38f494196c14af8407454fb_0?geometry=-126.488%2C45.696%2C-112.612%2C48.318). Below is the web map you will make by walking through this lab handout.
 
-![](img/final_map.png)
+![](imgs/final_map.png)
 
 To get started, please synchronize the course material to the working space of your local computer. If you are working in the Digital Earth Lab, please synchronize your course material on the desktop directory.  The material for this lab is located at `[your_working_space]/geog458/labs/lab03`. Next, open the course material in Atom.
 
@@ -72,7 +72,7 @@ L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo(
 
 If you are using Atom, please open up the atom live server, and then navigate to the map1.html. If you follow the default setting of Atom, the URL address of map1.html should be `https://localhost:3000/labs/lab03/map1.html`.
 
-![](img/map1.jpg)
+![](imgs/map1.png)
 
 The base map (in the format of `tile layer`) is provided by CartoDB. The light color stands out the principal features. In addition to switch to other map providers, please refer to [Leaflet providers](http://leaflet-extras.github.io/leaflet-providers/preview/).
 
@@ -110,7 +110,7 @@ attribution: 'Cell Tower Data &copy; HIFLD | Washington counties &copy; Washingt
 
  Then, please open `map2.html` to see how the map looks like at this stage.
 
-![](img/map2.jpg)
+![](imgs/map2.png)
 
 ## 2. Point Marker Visualization
 
@@ -137,7 +137,7 @@ Furthermore, we also need some predefined color ramp to symbolize geographic fea
 -   Diverging palettes are suited to centered data with extremes in either direction.
 -   Qualitative palettes are suited to nominal or categorical data.
 
-![](img/colorbrewer.jpg)
+![](imgs/colorbrewer.jpg)
 
 > **Note:** Color palettes from Color Brewer.
 
@@ -234,7 +234,7 @@ onEachFeature: function (feature, layer) {
 
  Please open **map3.html** to see how the map looks like. We have changed icon to cell tower!
 
-![](img/map3.jpg)
+![](imgs/map3.png)
 
 ## 3. Polygon Visualization
 
@@ -247,7 +247,7 @@ L.geoJson.ajax("assets/wacountydata.geojson").addTo(mymap);
 
 Save and refresh your map. Counties of Washington will be displayed on the map, symbolized in a default blue.
 
-![](img/map4-1.jpg)
+![](imgs/map3-1.png)
 
 Let us do something about that default blue and thematically style our data to these polygons useful by turning them into a choropleth layer. The `wacountydata.geojson` file contains numbers of cell towers in each county, calculated in QGIS.  To symbolize the counties by the number of counties, we will use the `style` option that contains styling properties.
 
@@ -304,7 +304,7 @@ L.geoJson.ajax("assets/wacountydata.geojson", {
 
 Save and refresh the html page. Open `map4.html`  to see our styled polygons!
 
-![](img/map4.jpg)
+![](imgs/map4.png)
 
 ## 4. Map Elements
 
@@ -430,7 +430,7 @@ Next, to style all text in our document with the `Titillium Web` font, modify th
 
 Save and refresh your map. Or open `map5.html`.  `Titillium Web` will now be your preferred font for legend panel!
 
-![](img/map5.jpg)
+![](imgs/map5.png)
 
 ## 5. Deliverable
 
