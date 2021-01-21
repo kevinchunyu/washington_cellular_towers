@@ -35,10 +35,10 @@
 
 
     // 4. build up a set of colors from colorbrewer's dark2 category
-    var colors = chroma.scale('Dark2').mode('lch').colors(9);
+    var colors = chroma.scale('Dark2').mode('lch').colors(12);
 
     // 5. dynamically append style classes to this page. This style classes will be used for colorize the markers.
-    for (i = 0; i < 9; i++) {
+    for (i = 0; i < 12; i++) {
         $('head').append($("<style> .marker-color-" + (i + 1).toString() + " { color: " + colors[i] + "; font-size: 15px; text-shadow: 0 0 3px #ffffff;} </style>"));
     }
 
@@ -65,10 +65,10 @@
             else if (feature.properties.LICENSEE == "VERIZON WIRELESS (VAW), LLC")  { id = 9; }
             else if (feature.properties.LICENSEE == "WASHINGTON RSA #8 LIMITED PARTNERSHIP")  { id = 10; }
             else if (feature.properties.LICENSEE == "WESTERN SUB-RSA LIMITED PARTNERSHIP")  { id = 11; }
-            else { id = 12;} // "Yakima MSA limited partnership"
+            else { id = 12;} 
             return L.marker(latlng, {icon: L.divIcon({className: 'fa fa-signal marker-color-' + (id + 1).toString() })});
         },
-        attribution: 'Cell Tower Data &copy; Map Cruzin | Washington counties &copy; Oregon Explorer | Base Map &copy; CartoDB | Made By Kevin Ko'
+        attribution: 'Cell Tower Data &copy; HIFLD | Washington counties &copy; Washington Data & Research | Base Map &copy; CartoDB | Made By Kevin Ko'
     }).addTo(mymap);
 
 </script>
