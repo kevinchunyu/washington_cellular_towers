@@ -1,6 +1,6 @@
 // 1. Create a map object.
 var mymap = L.map('map', {
-    center: [44.13, -119.93],
+    center: [47.7511, -120.7401],
     zoom: 7,
     maxZoom: 10,
     minZoom: 3,
@@ -14,10 +14,10 @@ L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo(
 var cellTowers = null;
 
 // 4. build up a set of colors from colorbrewer's dark2 category
-var colors = chroma.scale('Dark2').mode('lch').colors(12);
+var colors = chroma.scale('Dark2').mode('lch').colors(13);
 
 // 5. dynamically append style classes to this page. This style classes will be used for colorize the markers.
-for (i = 0; i < 12; i++) {
+for (i = 0; i < 13; i++) {
     $('head').append($("<style> .marker-color-" + (i + 1).toString() + " { color: " + colors[i] + "; font-size: 15px; text-shadow: 0 0 3px #ffffff;} </style>"));
 }
 
@@ -47,13 +47,14 @@ cellTowers= L.geoJson.ajax("assets/celltowers.geojson", {
         else { id = 12;} // "Yakima MSA limited partnership"
         return L.marker(latlng, {icon: L.divIcon({className: 'fa fa-signal marker-color-' + (id + 1).toString() })});
     },
-    attribution: 'Cell Tower Data &copy; Map Cruzin | Washington counties &copy; Oregon Explorer | Base Map &copy; CartoDB | Made By Kevin Ko'
+    attribution: 'Cell Tower Data &copy; HIFLD | Washington counties &copy; Washington Data & Research | Base Map &copy; CartoDB | Made By Kevin Ko'
 }).addTo(mymap);
 
 // 6. Set function for color ramp
 colors = chroma.scale('OrRd').colors(5);
 
 function setColor(density) {
+    console.log(density);
     var id = 0;
     if (density > 22) { id = 4; }
     else if (density > 16 && density <= 21) { id = 3; }
@@ -66,7 +67,7 @@ function setColor(density) {
 // 7. Set style function that sets fill color.md property equal to cell tower density
 function style(feature) {
     return {
-        fillColor: setColor(feature.properties.count / (feature.properties.AREA/1000)),
+        fillColor: setColor(feature.properties.CTNUM / (feature.properties.POP / 100000)),
         fillOpacity: 0.4,
         weight: 2,
         opacity: 1,
@@ -78,7 +79,7 @@ function style(feature) {
 // 8. Add county polygons
 // create counties variable, and assign null to it.
 var counties = null;
-counties = L.geoJson.ajax("assets/wacountydata.json", {
+counties = L.geoJson.ajax("assets/wacountydata.geojson", {
     style: style
 }).addTo(mymap);
 
@@ -91,7 +92,7 @@ legend.onAdd = function () {
 
     // Create Div Element and Populate it with HTML
     var div = L.DomUtil.create('div', 'legend');
-    div.innerHTML += '<b># Cell Tower</b><br />';
+    div.innerHTML += '<b># Cell Tower per 100k residents</b><br />';
     div.innerHTML += '<i style="background: ' + colors[4] + '; opacity: 0.5"></i><p>22+</p>';
     div.innerHTML += '<i style="background: ' + colors[3] + '; opacity: 0.5"></i><p> 16 - 21 </p>';
     div.innerHTML += '<i style="background: ' + colors[2] + '; opacity: 0.5"></i><p> 9 - 15 </p>';
@@ -110,7 +111,7 @@ legend.onAdd = function () {
     div.innerHTML += '<i class="fa fa-signal marker-color-10"></i><p> Verizon </p>';
     div.innerHTML += '<i class="fa fa-signal marker-color-11"></i><p> Washington RSA </p>';
     div.innerHTML += '<i class="fa fa-signal marker-color-12"></i><p> Western Sub-RSA </p>';
-
+    div.innerHTML += '<i class="fa fa-signal marker-color-13"></i><p> Yakima </p>';
     // Return the Legend div containing the HTML content
     return div;
 };
