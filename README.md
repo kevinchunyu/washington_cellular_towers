@@ -25,7 +25,7 @@ Inside the `body` tag, we put a `map` div tag for holding the map object. After 
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Cell Towers in Oregon (2009)</title>
+    <title>Cell Towers in Washington (2010)</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
     <style>
 
@@ -253,18 +253,18 @@ Let us do something about that default blue and thematically style our data to t
 
 ### 3.1 Set a sequential color palette
 
-The first step is to set up a function to create color classes.  One way to hard code the colors is to make the color scheme via QGIS or ArcGIS, selecting some classification rule like Jenk's Natural Breaks, and copy the break numbers as well as the color value. Alternatively, you can check out a color ramp from [colorbrewer2.org](<>). In this lab, you will use `chroma.js` to dynamically create an array of colors. Since the number of cell towers in each county is ordered data that progress from low to high, we will use a sequential color palette `OrRd` (meaning from Orange to Red). Then, we develop a `setColor` function that returns the color value using the number of cell tower lying in a county. Add the following code snippet in the `script` tag.
+The first step is to set up a function to create color classes.  One way to hard code the colors is to make the color scheme via QGIS or ArcGIS, selecting some classification rule like Jenk's Natural Breaks, and copy the break numbers as well as the color value. Alternatively, you can check out a color ramp from [colorbrewer2.org](<>). In this lab, you will use `chroma.js` to dynamically create an array of colors. Since the number of cell towers in each county is ordered data that progress from low to high, we will use a sequential color palette `YlOrRd` (meaning from Yellow, Orange to Red). Then, we develop a `setColor` function that returns the color value using the number of cell tower lying in a county. Add the following code snippet in the `script` tag.
 
 ```js
 // 6. Set function for color ramp
-colors = chroma.scale('OrRd').colors(5); //colors = chroma.scale('OrRd').colors(5);
+colors = chroma.scale('YlOrRd').colors(5);
 
 function setColor(density) {
     var id = 0;
-    if (density > 22) { id = 4; }
-    else if (density > 16 && density <= 21) { id = 3; }
-    else if (density > 9 && density <= 15) { id = 2; }
-    else if (density > 3 &&  density <= 8) { id = 1; }
+    if (density > 61) { id = 4; }
+    else if (density > 46 && density <= 60) { id = 3; }
+    else if (density > 12 && density <= 45) { id = 2; }
+    else if (density > 3 &&  density <= 11) { id = 1; }
     else  { id = 0; }
     return colors[id];
 }
@@ -324,11 +324,11 @@ legend.onAdd = function () {
     // Create Div Element and Populate it with HTML
     var div = L.DomUtil.create('div', 'legend');
     div.innerHTML += '<b># Cell Tower per 100k residents</b><br />';
-    div.innerHTML += '<i style="background: ' + colors[4] + '; opacity: 0.5"></i><p>22+</p>';
-    div.innerHTML += '<i style="background: ' + colors[3] + '; opacity: 0.5"></i><p> 16 - 21 </p>';
-    div.innerHTML += '<i style="background: ' + colors[2] + '; opacity: 0.5"></i><p> 9 - 15 </p>';
-    div.innerHTML += '<i style="background: ' + colors[1] + '; opacity: 0.5"></i><p> 3-8 </p>';
-    div.innerHTML += '<i style="background: ' + colors[0] + '; opacity: 0.5"></i><p> 0- 2 </p>';
+    div.innerHTML += '<i style="background: ' + colors[4] + '; opacity: 0.5"></i><p> 61+ </p>';
+    div.innerHTML += '<i style="background: ' + colors[3] + '; opacity: 0.5"></i><p> 46-60 </p>';
+    div.innerHTML += '<i style="background: ' + colors[2] + '; opacity: 0.5"></i><p> 12-45 </p>';
+    div.innerHTML += '<i style="background: ' + colors[1] + '; opacity: 0.5"></i><p> 3-11 </p>';
+    div.innerHTML += '<i style="background: ' + colors[0] + '; opacity: 0.5"></i><p> 0-2 </p>';
     div.innerHTML += '<hr><b>Company<b><br />';
     div.innerHTML += '<i class="fa fa-signal marker-color-1"></i><p> AT&T </p>';
     div.innerHTML += '<i class="fa fa-signal marker-color-2"></i><p> Eastern Sub-RSA </p>';
@@ -411,25 +411,25 @@ Save and refresh the html page. Open `map4.html`  to see the legend and scale ba
 
 Choosing fonts is an essential part of cartography, and an often overlooked one. Right now, our map uses the default Browser font, usually Times New Roman. To edit fonts, we want to style CSS. In CSS, there are many options for fonts; for more reading, check out the [w3schools font documentation](http://www.w3schools.com/css/css_font.asp).
 
-Traditionally, the font is loaded into your page only if you have it on your computer. This presents a problem though, if someone does not have the font, it will change the page to use secondary or default fonts. In order to ensure that every visitor's computer displays the same, you can link to online font libraries. A standard, useful online font library is Google Fonts. Google fonts can be added to any site, and since you link to the style, you do not have to worry about the user not having the font installed on their computer. Check out the Google Font library and explore their options. Let us link a standard web font called `Titillium Web` to our document so we can use it. To link it to our document, enter the following line of code into the head section of your document. It should go right after your stylesheets.
+Traditionally, the font is loaded into your page only if you have it on your computer. This presents a problem though, if someone does not have the font, it will change the page to use secondary or default fonts. In order to ensure that every visitor's computer displays the same, you can link to online font libraries. A standard, useful online font library is Google Fonts. Google fonts can be added to any site, and since you link to the style, you do not have to worry about the user not having the font installed on their computer. Check out the Google Font library and explore their options. Let us link a standard web font called `Open Sans` to our document so we can use it. To link it to our document, enter the following line of code into the head section of your document. It should go right after your stylesheets.
 
 ```html
 <head>...
-<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 ...</head>
 ```
 
-Next, to style all text in our document with the `Titillium Web` font, modify the `.legend` tag in the CSS (the code between the style tags). Modify the body CSS properties to look like the following, adding a font-family property after margin.
+Next, to style all text in our document with the `Open Sans` font, modify the `.legend` tag in the CSS (the code between the style tags). Modify the body CSS properties to look like the following, adding a font-family property after margin.
 
 ```html
 .legend {
     ...
-    font-family: 'Titillium Web', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     ...
 }
 ```
 
-Save and refresh your map. Or open `map5.html`.  `Titillium Web` will now be your preferred font for legend panel!
+Save and refresh your map. Or open `map5.html`.  `Open Sans` will now be your preferred font for legend panel!
 
 ![](imgs/map5.png)
 

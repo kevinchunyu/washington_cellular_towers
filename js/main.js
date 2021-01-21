@@ -51,15 +51,14 @@ cellTowers= L.geoJson.ajax("assets/celltowers.geojson", {
 }).addTo(mymap);
 
 // 6. Set function for color ramp
-colors = chroma.scale('OrRd').colors(5);
+colors = chroma.scale('YlOrRd').colors(5);
 
 function setColor(density) {
-    console.log(density);
     var id = 0;
-    if (density > 22) { id = 4; }
-    else if (density > 16 && density <= 21) { id = 3; }
-    else if (density > 9 && density <= 15) { id = 2; }
-    else if (density > 3 &&  density <= 8) { id = 1; }
+    if (density > 61) { id = 4; }
+    else if (density > 46 && density <= 60) { id = 3; }
+    else if (density > 12 && density <= 45) { id = 2; }
+    else if (density > 3 &&  density <= 11) { id = 1; }
     else  { id = 0; }
     return colors[id];
 }
@@ -93,11 +92,11 @@ legend.onAdd = function () {
     // Create Div Element and Populate it with HTML
     var div = L.DomUtil.create('div', 'legend');
     div.innerHTML += '<b># Cell Tower per 100k residents</b><br />';
-    div.innerHTML += '<i style="background: ' + colors[4] + '; opacity: 0.5"></i><p>22+</p>';
-    div.innerHTML += '<i style="background: ' + colors[3] + '; opacity: 0.5"></i><p> 16 - 21 </p>';
-    div.innerHTML += '<i style="background: ' + colors[2] + '; opacity: 0.5"></i><p> 9 - 15 </p>';
-    div.innerHTML += '<i style="background: ' + colors[1] + '; opacity: 0.5"></i><p> 3-8 </p>';
-    div.innerHTML += '<i style="background: ' + colors[0] + '; opacity: 0.5"></i><p> 0- 2 </p>';
+    div.innerHTML += '<i style="background: ' + colors[4] + '; opacity: 0.5"></i><p> 61+ </p>';
+    div.innerHTML += '<i style="background: ' + colors[3] + '; opacity: 0.5"></i><p> 46-60 </p>';
+    div.innerHTML += '<i style="background: ' + colors[2] + '; opacity: 0.5"></i><p> 12-45 </p>';
+    div.innerHTML += '<i style="background: ' + colors[1] + '; opacity: 0.5"></i><p> 3-11 </p>';
+    div.innerHTML += '<i style="background: ' + colors[0] + '; opacity: 0.5"></i><p> 0-2 </p>';
     div.innerHTML += '<hr><b>Company<b><br />';
     div.innerHTML += '<i class="fa fa-signal marker-color-1"></i><p> AT&T </p>';
     div.innerHTML += '<i class="fa fa-signal marker-color-2"></i><p> Eastern Sub-RSA </p>';
