@@ -14,10 +14,10 @@ L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo(
 var cellTowers = null;
 
 // 4. build up a set of colors from colorbrewer's dark2 category
-var colors = chroma.scale('Dark2').mode('lch').colors(9);
+var colors = chroma.scale('Dark2').mode('lch').colors(12);
 
 // 5. dynamically append style classes to this page. This style classes will be used for colorize the markers.
-for (i = 0; i < 9; i++) {
+for (i = 0; i < 12; i++) {
     $('head').append($("<style> .marker-color-" + (i + 1).toString() + " { color: " + colors[i] + "; font-size: 15px; text-shadow: 0 0 3px #ffffff;} </style>"));
 }
 
@@ -54,7 +54,6 @@ cellTowers= L.geoJson.ajax("assets/celltowers.geojson", {
 colors = chroma.scale('OrRd').colors(5);
 
 function setColor(density) {
-    console.log(density);
     var id = 0;
     if (density > 22) { id = 4; }
     else if (density > 16 && density <= 21) { id = 3; }
